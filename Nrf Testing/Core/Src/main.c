@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "stm32f4xx_hal.h"
 #include "MY_NRF24.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

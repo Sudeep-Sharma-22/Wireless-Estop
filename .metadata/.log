@@ -1,0 +1,21 @@
+!SESSION 2025-01-19 19:59:49.176 -----------------------------------------------
+eclipse.buildId=Version 1.14.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data C:\Users\sudee\STM32CubeIDE\Wireless Estop
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-01-19 19:59:54.535
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-01-19 19:59:54.545
+!MESSAGE Log4j2 initialized with config file C:\Users\sudee\STM32CubeIDE\Wireless Estop\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-01-19 19:59:57.244
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-01-19 20:00:45.324
+!MESSAGE Indexed 'Nrf Reciever' (24 sources, 127 headers) in 4.29 sec: 12,718 declarations; 50,224 references; 1 unresolved inclusions; 92 syntax errors; 240 unresolved names (0.38%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-01-19 20:01:47.559
+!MESSAGE Indexed 'Nrf Testing' (24 sources, 127 headers) in 2.43 sec: 12,717 declarations; 50,220 references; 1 unresolved inclusions; 92 syntax errors; 240 unresolved names (0.38%)
