@@ -1,14 +1,14 @@
-20:02:33 **** Incremental Build of configuration Debug for project Nrf Testing ****
+20:04:26 **** Incremental Build of configuration Debug for project Nrf Reciever ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xC -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "Nrf Testing.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\sudee\STM32CubeIDE\Wireless Estop\Nrf Testing\STM32F401CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Nrf Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Nrf Testing.elf
+arm-none-eabi-gcc -o "Nrf Reciever.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\sudee\STM32CubeIDE\Wireless Estop\Nrf Reciever\STM32F401CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Nrf Reciever.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Nrf Reciever.elf
  
-arm-none-eabi-size  Nrf\ Testing.elf 
-arm-none-eabi-objdump -h -S Nrf\ Testing.elf  > "Nrf Testing.list"
+arm-none-eabi-size  Nrf\ Reciever.elf 
+arm-none-eabi-objdump -h -S Nrf\ Reciever.elf  > "Nrf Reciever.list"
    text	   data	    bss	    dec	    hex	filename
-  20188	    140	   2236	  22564	   5824	Nrf Testing.elf
+  20108	    108	   2296	  22512	   57f0	Nrf Reciever.elf
 Finished building: default.size.stdout
  
-Finished building: Nrf Testing.list
+Finished building: Nrf Reciever.list
  
