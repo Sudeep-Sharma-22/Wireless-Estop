@@ -1,0 +1,10 @@
+22:21:32 **** Incremental Build of configuration Debug for project Holybro_T_pol ****
+make -j16 all 
+arm-none-eabi-size  Holybro_T_pol.elf 
+   text	   data	    bss	    dec	    hex	filename
+  12584	     24	   1736	  14344	   3808	Holybro_T_pol.elf
+Finished building: default.size.stdout
+ 
+
+22:21:32 Build Finished. 0 errors, 0 warnings. (took 195ms)
+
