@@ -59,16 +59,45 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint8_t tx_data = 0;
+uint8_t zero_count = 0;
 
+typedef enum {
+    TX_STATE_INIT,
+    TX_STATE_IDLE,
+    TX_STATE_CONTINUOUS_1
+} TX_State;
+
+TX_State current_state = TX_STATE_INIT;
+
+// --- DMA Transfer Complete Callback ---
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
-    // Restart DMA transmission
-    HAL_UART_Transmit_DMA(&huart2, &tx_data, 1);
+    switch (current_state) {
+        case TX_STATE_INIT:
+            zero_count++;
+            if (zero_count < 3) {
+                HAL_UART_Transmit_DMA(&huart2, &tx_data, 1);
+            } else {
+                current_state = TX_STATE_IDLE;
+            }
+            break;
+
+        case TX_STATE_CONTINUOUS_1:
+            HAL_UART_Transmit_DMA(&huart2, &tx_data, 1);
+            break;
+
+        case TX_STATE_IDLE:
+        default:
+            // Do nothing
+            break;
+    }
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-    if (GPIO_Pin == GPIO_PIN_0) {
+    if (GPIO_Pin == GPIO_PIN_0 && current_state != TX_STATE_CONTINUOUS_1) {
     	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-        tx_data = 1;  // Emergency signal
+        tx_data = 1;
+        current_state = TX_STATE_CONTINUOUS_1;
+        HAL_UART_Transmit_DMA(&huart2, &tx_data, 1);
     }
 }
 
@@ -106,7 +135,9 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Transmit_DMA(&huart2, &tx_data, 1);
+  current_state = TX_STATE_INIT;
+    HAL_UART_Transmit_DMA(&huart2, &tx_data, 1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
