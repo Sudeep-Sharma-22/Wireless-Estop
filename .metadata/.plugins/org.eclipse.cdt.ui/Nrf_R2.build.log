@@ -1,0 +1,10 @@
+01:21:13 **** Incremental Build of configuration Debug for project Nrf_R2 ****
+make -j16 all 
+arm-none-eabi-size  Nrf_R2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  20024	    108	   2248	  22380	   576c	Nrf_R2.elf
+Finished building: default.size.stdout
+ 
+
+01:21:14 Build Finished. 0 errors, 0 warnings. (took 386ms)
+
