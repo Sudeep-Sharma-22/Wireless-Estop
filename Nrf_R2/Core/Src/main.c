@@ -62,7 +62,7 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint64_t RxpipeAddrs = 0x11223344AA;
-char myRxData[2];
+uint8_t myRxData[1] = {0};
 
 
 /* USER CODE END 0 */
@@ -105,7 +105,7 @@ int main(void)
 
 
   NRF24_setAutoAck(false);
-  NRF24_setChannel(52);
+  NRF24_setChannel(78);
   NRF24_setPayloadSize(1);
   NRF24_openReadingPipe(1, RxpipeAddrs);
   NRF24_startListening();
@@ -124,19 +124,15 @@ int main(void)
 	  if (NRF24_available())
 	      {
 	        NRF24_read(myRxData, 1); // Read 1 byte
-	        myRxData[1] = '\0'; // Null terminate
 
-	        if (myRxData[0] == '1')
+	        if (myRxData[0] == 255) // Check if received value is 255 (equivalent to '1' in transmitter)
 	        {
 	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); // LED ON
 	        }
-	        else if (myRxData[0] == '0')
+	        else if (myRxData[0] == 0) // Check if received value is 0 (equivalent to '0' in transmitter)
 	        {
 	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // LED OFF
 	        }
-
-	        // Optional UART debug:
-	        // HAL_UART_Transmit(&huart2, (uint8_t*)myRxData, 1, 10);
 
 	        count = 0;
 	      }

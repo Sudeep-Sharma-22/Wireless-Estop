@@ -63,7 +63,7 @@ static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN 0 */
 uint64_t TxpipeAddrs = 0x11223344AA;
 
-char myTxData[2] = "0";  // Sending '0' or '1' as a char
+uint8_t myTxData[1] = {0};  // Initialize with 0
 uint8_t zero_count = 0;
 
 typedef enum {
@@ -77,7 +77,7 @@ TX_State current_state = TX_STATE_INIT;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     if (GPIO_Pin == GPIO_PIN_12 && current_state != TX_STATE_CONTINUOUS_1) {
         HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-        strcpy(myTxData, "1");  // Change buffer content to '1'
+        myTxData[0] = 255;  // Set to send 255
         current_state = TX_STATE_CONTINUOUS_1;
     }
 }
@@ -124,10 +124,10 @@ int main(void)
   NRF24_stopListening();
   NRF24_openWritingPipe(TxpipeAddrs);
   NRF24_setAutoAck(false);
-  NRF24_setChannel(52);
+  NRF24_setChannel(78);
   NRF24_setPayloadSize(1);
 
-  strcpy(myTxData, "0");
+  myTxData[0] = 0;
     current_state = TX_STATE_INIT;
 
   /* USER CODE END 2 */
@@ -144,7 +144,7 @@ int main(void)
 	        case TX_STATE_INIT:
 	          if (zero_count < 3)
 	          {
-	            NRF24_write(myTxData, strlen(myTxData));
+	            NRF24_write(myTxData, 1);
 	            zero_count++;
 	            HAL_Delay(50);
 	          }
@@ -155,7 +155,7 @@ int main(void)
 	          break;
 
 	        case TX_STATE_CONTINUOUS_1:
-	          NRF24_write(myTxData, strlen(myTxData));
+	          NRF24_write(myTxData, 1);
 	          HAL_Delay(50);
 	          break;
 

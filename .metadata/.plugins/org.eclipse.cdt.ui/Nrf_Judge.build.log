@@ -1,0 +1,10 @@
+14:37:17 **** Incremental Build of configuration Debug for project Nrf_Judge ****
+make -j16 all 
+arm-none-eabi-size  Nrf_Judge.elf 
+   text	   data	    bss	    dec	    hex	filename
+  20428	    112	   2240	  22780	   58fc	Nrf_Judge.elf
+Finished building: default.size.stdout
+ 
+
+14:37:17 Build Finished. 0 errors, 0 warnings. (took 384ms)
+
