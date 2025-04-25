@@ -110,7 +110,9 @@ int main(void)
   NRF24_openReadingPipe(1, RxpipeAddrs);
   NRF24_startListening();
 
-  int count = 0;
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+
+   uint8_t eStopTriggered = 0;
 
   /* USER CODE END 2 */
 
@@ -121,27 +123,16 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if (NRF24_available())
+	   if (NRF24_available())
+	    {
+	      NRF24_read(myRxData, 1);
+
+	      if (myRxData[0] == 255 && eStopTriggered == 0)
 	      {
-	        NRF24_read(myRxData, 1); // Read 1 byte
-
-	        if (myRxData[0] == 255) // Check if received value is 255 (equivalent to '1' in transmitter)
-	        {
-	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); // LED ON
-	        }
-	        else if (myRxData[0] == 0) // Check if received value is 0 (equivalent to '0' in transmitter)
-	        {
-	          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // LED OFF
-	        }
-
-	        count = 0;
+	        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); // LED ON
+	        eStopTriggered = 1; // latch state
 	      }
-	      else if (count > 50000)
-	      {
-	        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-	      }
-
-	      count++;
+	    }
 
   }
   /* USER CODE END 3 */

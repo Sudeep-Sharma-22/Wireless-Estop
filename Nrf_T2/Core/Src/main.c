@@ -62,26 +62,24 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint64_t TxpipeAddrs = 0x11223344AA;
+uint8_t myTxData[1] = {255};
+uint8_t send_counter = 0;
 
-uint8_t myTxData[1] = {0};  // Initialize with 0
-uint8_t zero_count = 0;
 
 typedef enum {
-    TX_STATE_INIT,
     TX_STATE_IDLE,
-    TX_STATE_CONTINUOUS_1
+    TX_STATE_SENDING
 } TX_State;
 
-TX_State current_state = TX_STATE_INIT;
+TX_State current_state = TX_STATE_IDLE;
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-    if (GPIO_Pin == GPIO_PIN_12 && current_state != TX_STATE_CONTINUOUS_1) {
-        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-        myTxData[0] = 255;  // Set to send 255
-        current_state = TX_STATE_CONTINUOUS_1;
+    if (GPIO_Pin == GPIO_PIN_12 && current_state == TX_STATE_IDLE) {
+        current_state = TX_STATE_SENDING;
+        send_counter = 0;
+        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Toggle LED to indicate button was registered
     }
 }
-
 /* USER CODE END 0 */
 
 /**
@@ -127,8 +125,7 @@ int main(void)
   NRF24_setChannel(78);
   NRF24_setPayloadSize(1);
 
-  myTxData[0] = 0;
-    current_state = TX_STATE_INIT;
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); // LED ON (idle)
 
   /* USER CODE END 2 */
 
@@ -140,29 +137,24 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  switch (current_state)
-	      {
-	        case TX_STATE_INIT:
-	          if (zero_count < 3)
-	          {
-	            NRF24_write(myTxData, 1);
-	            zero_count++;
-	            HAL_Delay(50);
-	          }
-	          else
-	          {
-	            current_state = TX_STATE_IDLE;
-	          }
-	          break;
+	     {
+	       case TX_STATE_SENDING:
+	         if (send_counter < 50)
+	         {
+	           NRF24_write(myTxData, 1);
+	           send_counter++;
+	           HAL_Delay(50);  // Delay between transmissions
+	         }
+	         else
+	         {
+	           current_state = TX_STATE_IDLE;
+	         }
+	         break;
 
-	        case TX_STATE_CONTINUOUS_1:
-	          NRF24_write(myTxData, 1);
-	          HAL_Delay(50);
-	          break;
-
-	        case TX_STATE_IDLE:
-	        default:
-	          break;
-	      }
+	       case TX_STATE_IDLE:
+	       default:
+	         break;
+	     }
 
   }
   /* USER CODE END 3 */
