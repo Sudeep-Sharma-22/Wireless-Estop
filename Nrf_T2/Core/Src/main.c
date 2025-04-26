@@ -74,10 +74,10 @@ typedef enum {
 TX_State current_state = TX_STATE_IDLE;
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-    if (GPIO_Pin == GPIO_PIN_12 && current_state == TX_STATE_IDLE) {
+    if (GPIO_Pin == GPIO_PIN_14 && current_state == TX_STATE_IDLE) {
         current_state = TX_STATE_SENDING;
         send_counter = 0;
-        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Toggle LED to indicate button was registered
+        HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);  // Toggle LED to indicate button was registered
     }
 }
 /* USER CODE END 0 */
@@ -125,7 +125,7 @@ int main(void)
   NRF24_setChannel(78);
   NRF24_setPayloadSize(1);
 
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); // LED ON (idle)
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET); // LED ON (idle)
 
   /* USER CODE END 2 */
 
@@ -298,7 +298,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10|CSNpin_Pin|CEpin_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10|GPIO_PIN_5|CSNpin_Pin|CEpin_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -307,17 +307,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB10 CSNpin_Pin CEpin_Pin */
-  GPIO_InitStruct.Pin = GPIO_PIN_10|CSNpin_Pin|CEpin_Pin;
+  /*Configure GPIO pin : PC14 */
+  GPIO_InitStruct.Pin = GPIO_PIN_14;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB10 PB5 CSNpin_Pin CEpin_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_5|CSNpin_Pin|CEpin_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PB12 */
-  GPIO_InitStruct.Pin = GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
