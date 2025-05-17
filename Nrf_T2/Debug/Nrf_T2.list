@@ -3443,8 +3443,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_14;
  8001a38:	f44f 4380 	mov.w	r3, #16384	; 0x4000
  8001a3c:	617b      	str	r3, [r7, #20]
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
- 8001a3e:	f44f 1388 	mov.w	r3, #1114112	; 0x110000
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+ 8001a3e:	f44f 1304 	mov.w	r3, #2162688	; 0x210000
  8001a42:	61bb      	str	r3, [r7, #24]
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
  8001a44:	2302      	movs	r3, #2
