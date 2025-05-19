@@ -130,13 +130,13 @@ int main(void)
 
 	      if (myRxData[0] == 255 && eStopTriggered == 0)
 	      {
-	        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); // LED ON
-	        eStopTriggered = 1; // latch state
+	        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+	        eStopTriggered = 1;
 	      }
 	    }
 
 	   if(eStopTriggered){
-	        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET); // LED ON
+	        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET);
 
 	   }
 
@@ -291,17 +291,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB10 CSNpin_Pin CEpin_Pin */
-  GPIO_InitStruct.Pin = GPIO_PIN_10|CSNpin_Pin|CEpin_Pin;
+  /*Configure GPIO pins : PB10 PB13 CSNpin_Pin CEpin_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_13|CSNpin_Pin|CEpin_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PB13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
